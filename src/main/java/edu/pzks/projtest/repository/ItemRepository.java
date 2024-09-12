@@ -9,5 +9,10 @@ package edu.pzks.projtest.repository;
   @since 09.09.24 - 12.27
 */
 
-    public interface ItemRepository {
+import edu.pzks.projtest.model.Item;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ItemRepository extends MongoRepository<Item, String> {
 }
