@@ -36,10 +36,26 @@ public class ItemService {
         itemRepository.saveAll(items);
     }
     //  CRUD   - create read update delete
-    public List<Item> getItems() {
+
+    public List<Item> getAll() {
         return itemRepository.findAll();
     }
 
+    public Item getById(String id) {
+        return itemRepository.findById(id).orElse(null);
+    }
+
+    public Item create(Item item) {
+        return itemRepository.save(item);
+    }
+
+    public  Item update(Item item) {
+        return itemRepository.save(item);
+    }
+
+    public void delById(String id) {
+        itemRepository.deleteById(id);
+    }
 
 
 }

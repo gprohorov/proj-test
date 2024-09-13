@@ -4,8 +4,7 @@ package edu.pzks.projtest.controller;
 import edu.pzks.projtest.model.Item;
 import edu.pzks.projtest.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
   @since 09.09.24 - 12.01
 */
 @RestController
-@RequestMapping("api/v1/items")
+@RequestMapping("api/v1/items/")
 @RequiredArgsConstructor
 public class ItemRestController {
     private final ItemService itemService;
@@ -27,19 +26,31 @@ public class ItemRestController {
     // CRUD   create read update delete
 
     // read all
-    @RequestMapping("/")
+    @RequestMapping
     public List<Item> showAll() {
-        return itemService.getItems();
+        return itemService.getAll();
     }
 
     // read one
-    @RequestMapping("/id")
-    public Item showOneById() {
-        return null;
+    @GetMapping("{id}")
+    public Item showOneById(@PathVariable String id) {
+        String str = id;
+        return itemService.getById(id);
     }
 
+    @PostMapping
+    public Item insert(@RequestBody Item item) {
+        return itemService.create(item);
+    }
 
+    @PutMapping
+    public Item edit(@RequestBody Item item) {
+        return itemService.update(item);
+    }
 
-
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable String id) {
+        itemService.delById(id);
+    }
 
 }
