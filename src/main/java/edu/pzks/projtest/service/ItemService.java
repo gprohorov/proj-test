@@ -35,11 +35,11 @@ public class ItemService {
     void init() {
         itemRepository.saveAll(items);
     }
-
+    //  CRUD   - create read update delete
     public List<Item> getItems() {
         return itemRepository.findAll();
     }
-    //  CRUD   - create read update delete
+
 
 
 }

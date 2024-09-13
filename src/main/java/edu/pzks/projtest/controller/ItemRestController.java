@@ -23,18 +23,18 @@ import java.util.List;
 public class ItemRestController {
     private final ItemService itemService;
 
-    @RequestMapping("/hello")
-    public String hello() {
-        return "<h1> !!!!!!! hello   !!!!!!!!!!!!!!!! <h1>" ;
-    }
 
+    // CRUD   create read update delete
+
+    // read all
     @RequestMapping("/")
     public List<Item> showAll() {
         return itemService.getItems();
     }
 
+    // read one
     @RequestMapping("/id")
-    public Item showOne() {
+    public Item showOneById() {
         return null;
     }
 
