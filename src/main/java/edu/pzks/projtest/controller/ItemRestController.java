@@ -6,7 +6,7 @@ import edu.pzks.projtest.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /*
@@ -26,7 +26,7 @@ public class ItemRestController {
     // CRUD   create read update delete
 
     // read all
-    @RequestMapping
+    @GetMapping
     public List<Item> showAll() {
         return itemService.getAll();
     }
@@ -34,7 +34,6 @@ public class ItemRestController {
     // read one
     @GetMapping("{id}")
     public Item showOneById(@PathVariable String id) {
-        String str = id;
         return itemService.getById(id);
     }
 
