@@ -9,6 +9,7 @@ package edu.pzks.projtest.service;
   @since 09.09.24 - 12.16
 */
 
+import edu.pzks.projtest.controller.ItemRestController;
 import edu.pzks.projtest.model.Item;
 import edu.pzks.projtest.repository.ItemRepository;
 import jakarta.annotation.PostConstruct;

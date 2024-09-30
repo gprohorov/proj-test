@@ -2,6 +2,7 @@ package edu.pzks.projtest.controller;
 
 
 import edu.pzks.projtest.model.Item;
+import edu.pzks.projtest.repository.ItemRepository;
 import edu.pzks.projtest.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,9 @@ import java.util.List;
 @RequestMapping("api/v1/items/")
 @RequiredArgsConstructor
 public class ItemRestController {
+
     private final ItemService itemService;
+  //  private final ItemRepository repository;
 
 
     // CRUD   create read update delete

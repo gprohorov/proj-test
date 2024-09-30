@@ -10,6 +10,7 @@ package edu.pzks.projtest.model;
 */
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -20,6 +21,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Document
 public class Item {
+    @Id
     private String id;
     private String name;
     private String code;
