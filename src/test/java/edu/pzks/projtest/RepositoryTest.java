@@ -37,7 +37,7 @@ public class RepositoryTest {
         underTest.saveAll(List.of(freddy, paul, mick));
     }
 
-    @AfterEach
+  //  @AfterEach
     void tearDown() {
         List<Item> itemsToDelete = underTest.findAll().stream()
                 .filter(item -> item.getDescription().contains("###test"))
@@ -71,6 +71,31 @@ public class RepositoryTest {
         assertNotNull(itemFromDb.getId());
         assertFalse(itemFromDb.getId().isEmpty());
         assertEquals(24, itemFromDb.getId().length());
+    }
+
+    @Test
+    void shouldNotGiveIdForNewRecord() {
+        Item john = new Item("4","John Lennon", "Beatles", "###test");
+    }
+
+    @Test
+    void shouldUpdateRecord() {
+        //given
+        Item freddy = new Item("1", "Frederick BulSrarah", "Queen", "###test");
+        // when
+        underTest.save(freddy);
+
+    }
+    void shouldNotUpdateFieldsInRecord() {
+        //given
+        Item freddy = Item.builder()
+                .id("1")
+                .name("Frederick BulSrarah")
+                .description("###test")
+                .build();
+        // when
+        underTest.save(freddy);
+
     }
 
     // upgrade  - 2 test

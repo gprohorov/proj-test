@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @ToString
 @Document
 public class Item {
