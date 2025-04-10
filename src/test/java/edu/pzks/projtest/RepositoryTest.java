@@ -71,7 +71,24 @@ public class RepositoryTest {
         assertNotNull(itemFromDb.getId());
         assertFalse(itemFromDb.getId().isEmpty());
         assertEquals(24, itemFromDb.getId().length());
+    }@Test
+    void whenRecordHasIdThenItIsPossibleToSave() {
+        // given
+        Item john = Item.builder()
+                .id("1")
+                .description("###test2")
+                .build();
+        // when
+        underTest.save(john);
+        Item itemFromDb = underTest.findAll().stream()
+                .filter(item -> item.getDescription().equals("###test2"))
+                .findFirst().orElse(null);
+        // then
+
+        assertNotNull(itemFromDb);
     }
+
+    //  id = "";
 
     // upgrade  - 2 test
     // find by Code native query

@@ -19,8 +19,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @ToString
+@Builder
 @Document
-public class Item {
+public class Item extends AuditMetadata {
     @Id
     private String id;
     private String name;
