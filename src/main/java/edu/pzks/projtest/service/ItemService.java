@@ -36,6 +36,7 @@ public class ItemService {
     void init() {
         itemRepository.deleteAll();
         itemRepository.saveAll(items);
+
     }
     //  CRUD   - create read update delete
 
