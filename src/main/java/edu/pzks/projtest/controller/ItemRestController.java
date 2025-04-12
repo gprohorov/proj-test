@@ -3,6 +3,8 @@ package edu.pzks.projtest.controller;
 
 import edu.pzks.projtest.model.Item;
 import edu.pzks.projtest.repository.ItemRepository;
+import edu.pzks.projtest.request.ItemCreateRequest;
+import edu.pzks.projtest.request.ItemUpdateRequest;
 import edu.pzks.projtest.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -45,10 +47,22 @@ public class ItemRestController {
         return itemService.create(item);
     }
 
+    //============== request =====================
+    @PostMapping("/dto")
+    public Item insert(@RequestBody ItemCreateRequest request) {
+        return itemService.create(request);
+    }
+
     @PutMapping
     public Item edit(@RequestBody Item item) {
         return itemService.update(item);
     }
+    //============== request =====================
+    @PutMapping("/dto")
+    public Item edit(@RequestBody ItemUpdateRequest request) {
+        return itemService.update(request);
+    }
+
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id) {

@@ -12,10 +12,13 @@ package edu.pzks.projtest.service;
 import edu.pzks.projtest.controller.ItemRestController;
 import edu.pzks.projtest.model.Item;
 import edu.pzks.projtest.repository.ItemRepository;
+import edu.pzks.projtest.request.ItemCreateRequest;
+import edu.pzks.projtest.request.ItemUpdateRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +30,9 @@ public class ItemService {
 
     private List<Item> items = new ArrayList<>();
     {
-        items.add(new Item( "name1", "000001","description1"));
-        items.add(new Item("2", "name2", "000002","description3"));
-        items.add(new Item("3", "name3", "000003","description3"));
+        items.add(new Item( "Freddie Mercury", "Queen","vocal, piano"));
+        items.add(new Item("2", "Paul McCartney", "Beatles","guitar"));
+        items.add(new Item("3", "Mick Jagger", "Rolling Stones","vocal"));
     }
 
     @PostConstruct
@@ -49,6 +52,14 @@ public class ItemService {
     }
 
     public Item create(Item item) {
+
+        return itemRepository.save(item);
+    }
+
+    public Item create(ItemCreateRequest request) {
+        Item item = mapToItem(request);
+        item.setCreateDate(LocalDateTime.now());
+        item.setUpdateDate(new ArrayList<LocalDateTime>());
         return itemRepository.save(item);
     }
 
@@ -56,9 +67,34 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+
     public void delById(String id) {
         itemRepository.deleteById(id);
     }
 
+    private Item mapToItem(ItemCreateRequest request) {
+        Item item = new Item(request.name(), request.code(), request.description());
+        return item;
+    }
+
+    public Item update(ItemUpdateRequest request) {
+        Item itemPersisted = itemRepository.findById(request.id()).orElse(null);
+        if (itemPersisted != null) {
+            List<LocalDateTime> updateDates = itemPersisted.getUpdateDate();
+            updateDates.add(LocalDateTime.now());
+            Item itemToUpdate =
+                    Item.builder()
+                            .id(request.id())
+                            .name(request.name())
+                            .code(request.code())
+                            .description(request.description())
+                            .createDate(itemPersisted.getCreateDate())
+                            .updateDate(updateDates)
+                            .build();
+            return itemRepository.save(itemToUpdate);
+
+        }
+        return null;
+    }
 
 }
