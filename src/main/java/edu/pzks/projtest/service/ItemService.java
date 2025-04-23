@@ -33,13 +33,13 @@ public class ItemService {
         items.add(new Item( "Freddie Mercury", "Queen","vocal, piano"));
         items.add(new Item("2", "Paul McCartney", "Beatles","guitar"));
         items.add(new Item("3", "Mick Jagger", "Rolling Stones","vocal"));
+
     }
 
     @PostConstruct
     void init() {
         itemRepository.deleteAll();
         itemRepository.saveAll(items);
-
     }
     //  CRUD   - create read update delete
 
@@ -57,6 +57,9 @@ public class ItemService {
     }
 
     public Item create(ItemCreateRequest request) {
+        if (itemRepository.existsByCode(request.code())) {
+            return null;
+        }
         Item item = mapToItem(request);
         item.setCreateDate(LocalDateTime.now());
         item.setUpdateDate(new ArrayList<LocalDateTime>());
