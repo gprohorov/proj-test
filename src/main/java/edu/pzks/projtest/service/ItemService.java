@@ -16,11 +16,14 @@ import edu.pzks.projtest.request.ItemCreateRequest;
 import edu.pzks.projtest.request.ItemUpdateRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +51,11 @@ public class ItemService {
     }
 
     public Item getById(String id) {
-        return itemRepository.findById(id).orElse(null);
+        Optional<Item> item = itemRepository.findById(id);
+        if (item.isEmpty() || item.get() == null) {
+            throw new NoSuchElementException("Item with id " + id + " not found.");
+        }
+        return item.get();
     }
 
     public Item create(Item item) {
@@ -58,7 +65,7 @@ public class ItemService {
 
     public Item create(ItemCreateRequest request) {
         if (itemRepository.existsByCode(request.code())) {
-            return null;
+            throw  new IllegalStateException("code already exists");
         }
         Item item = mapToItem(request);
         item.setCreateDate(LocalDateTime.now());
