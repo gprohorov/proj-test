@@ -32,10 +32,11 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     private List<Item> items = new ArrayList<>();
+
     {
-        items.add(new Item( "Freddie Mercury", "Queen","vocal, piano"));
-        items.add(new Item("2", "Paul McCartney", "Beatles","guitar"));
-        items.add(new Item("3", "Mick Jagger", "Rolling Stones","vocal"));
+        items.add(new Item("Freddie Mercury", "Queen", "vocal, piano"));
+        items.add(new Item("2", "Paul McCartney", "Beatles", "guitar"));
+        items.add(new Item("3", "Mick Jagger", "Rolling Stones", "vocal"));
 
     }
 
