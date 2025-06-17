@@ -15,7 +15,9 @@ import edu.pzks.projtest.repository.ItemRepository;
 import edu.pzks.projtest.request.ItemCreateRequest;
 import edu.pzks.projtest.request.ItemUpdateRequest;
 import jakarta.annotation.PostConstruct;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+@Slf4j
+@Data
 @Service
 @RequiredArgsConstructor
 public class ItemService {
@@ -48,6 +51,8 @@ public class ItemService {
     //  CRUD   - create read update delete
 
     public List<Item> getAll() {
+        log.info("Smth2");
+
         return itemRepository.findAll();
     }
 

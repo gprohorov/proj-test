@@ -7,6 +7,8 @@ import edu.pzks.projtest.request.ItemCreateRequest;
 import edu.pzks.projtest.request.ItemUpdateRequest;
 import edu.pzks.projtest.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,27 +21,25 @@ import java.util.List;
   @version  1.0.0 
   @since 09.09.24 - 12.01
 */
+@Slf4j
 @RestController
-@RequestMapping("api/v1/items/")
+@RequestMapping("api/v1/items")
 @RequiredArgsConstructor
 public class ItemRestController {
 
     private final ItemService itemService;
-  //  private final ItemRepository repository;
-
-
-    // CRUD   create read update delete
-
-    // read all
+l
     @GetMapping
     public List<Item> showAll() {
+     //log.info("Smth");
         return itemService.getAll();
     }
 
     // read one
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Item showOneById(@PathVariable String id) {
-        return itemService.getById(id);
+
+    return itemService.getById(id);
     }
 
     @PostMapping
@@ -64,7 +64,7 @@ public class ItemRestController {
     }
 
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         itemService.delById(id);
     }
