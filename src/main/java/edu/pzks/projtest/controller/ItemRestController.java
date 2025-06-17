@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  ItemRestController
   @version  1.0.0 

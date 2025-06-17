@@ -2,7 +2,7 @@ package edu.pzks.projtest.model;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  Item
   @version  1.0.0 

@@ -2,7 +2,7 @@ package edu.pzks.projtest.config;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  AuditionConfiguration
   @version  1.0.0 

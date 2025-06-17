@@ -31,7 +31,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  ItemRestControllerTest
   @version  1.0.0 

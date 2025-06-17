@@ -2,7 +2,7 @@ package edu.pzks.projtest.service;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  ItemService
   @version  1.0.0 

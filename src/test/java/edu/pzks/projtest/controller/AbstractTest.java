@@ -2,7 +2,7 @@ package edu.pzks.projtest.controller;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  AbstractTest
   @version  1.0.0 

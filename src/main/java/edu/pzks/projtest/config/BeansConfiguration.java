@@ -2,7 +2,7 @@ package edu.pzks.projtest.config;
 
 
 /*
-  @author   george
+  @author   nick
   @project   security25
   @class  BeansConfiguration
   @version  1.0.0 

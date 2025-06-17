@@ -2,7 +2,7 @@ package edu.pzks.projtest.Utils;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  Utils
   @version  1.0.0 

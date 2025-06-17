@@ -25,7 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  ItemServiceTest
   @version  1.0.0 

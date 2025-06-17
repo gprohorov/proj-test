@@ -2,7 +2,7 @@ package edu.pzks.projtest.repository;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  ItemRepository
   @version  1.0.0 

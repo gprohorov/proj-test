@@ -26,7 +26,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 /*
-  @author george
+  @author nick
   @project proj-test
   @class ItemServiceTest
   @version 1.0.0

@@ -2,7 +2,7 @@ package edu.pzks.projtest.request;
 
 
 /*
-  @author   george
+  @author   nick
   @project   proj-test
   @class  ItemCreateRequest
   @version  1.0.0 
