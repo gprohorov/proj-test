@@ -34,10 +34,12 @@ public class RepositoryTest {
         Item freddy = new Item("1", "Freddy Mercury", "Queen", "###test");
         Item paul = new Item("2", "Paul McCartney", "Beatles", "###test");
         Item mick = new Item("3", "Mick Jagger", "Rolling Stones", "###test");
+        Item till = new Item("4", "Till Lindemann", "Ramstein", "###test");
+
         underTest.saveAll(List.of(freddy, paul, mick));
     }
 
-    @AfterEach
+ //   @AfterEach
     void tearDown() {
         List<Item> itemsToDelete = underTest.findAll().stream()
                 .filter(item -> item.getDescription().contains("###test"))
@@ -71,6 +73,34 @@ public class RepositoryTest {
         assertNotNull(itemFromDb.getId());
         assertFalse(itemFromDb.getId().isEmpty());
         assertEquals(24, itemFromDb.getId().length());
+    }
+
+    @Test
+    void whenIdIsPresentThenshouldSaveObject() {
+        // given
+        Item tillUpdated = new Item("4", null, "Ramstein2", null);
+        // when
+        underTest.save(tillUpdated);
+        Item itemFromDb = underTest.findById("4").get();
+        // then
+        assertNotNull(itemFromDb);
+      //  assertTrue(itemFromDb.getCode().equals(tillUpdated.getCode()));
+        System.out.println();
+
+    }
+
+    @Test
+    void whenIdIsPresentThen() {
+        // given
+        Item john = new Item("gfcgfcgcgfc","John Lennon", "Beatles", "###test");
+        // when
+        underTest.save(john);
+        Item itemFromDb = underTest.findAll().stream()
+                .filter(item -> item.getName().equals("John Lennon"))
+                .findFirst().orElse(null);
+        // then
+        assertTrue(itemFromDb.getId().equals(john.getId()));
+
     }
 
     // upgrade  - 2 test
