@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +40,7 @@ public class AuditTest {
         underTest.createAll(List.of(freddy, paul, mick));
     }
 
-   // @AfterEach
+  @AfterEach
     void tearDown() {
         List<Item> itemsToDelete = underTest.getAll().stream()
                 .filter(item -> item.getDescription().contains("###test"))
@@ -60,5 +61,39 @@ public class AuditTest {
                 .toList();
         assertEquals(3,itemsToDelete.size());
     }
+
+    @Test
+    void whenCreateNewItemThenAuditIsFullPresent(){
+     // given
+          Item item = new Item("Till Lindemann", "Rammstein", "###test  audit test");
+     // when
+
+          Item ItemCreated =  underTest.create(item);
+          // then
+          assertNotNull(ItemCreated);
+          assertNotNull(ItemCreated.getId());
+          assertNotNull(ItemCreated.getCreatedDate());
+          assertNotNull(ItemCreated.getLastModifiedDate());
+          assertEquals(item.getCreatedDate(), ItemCreated.getLastModifiedDate());
+
+    }
+
+    @Test
+    void whenUpdatetemThenAuditIs(){
+        // given
+        Item item = new Item("Till Lindemann", "Rammstein", "###test  audit test");
+        // when
+
+        Item itemCreated =  underTest.create(item);
+        Item itemUpdated =  underTest.update(item);
+        // then
+        assertNotNull(itemCreated);
+        assertNotNull(itemCreated.getId());
+        assertNotNull(itemCreated.getCreatedDate());
+        assertNotNull(itemCreated.getLastModifiedDate());
+        assertTrue(item.getCreatedDate().isBefore(itemUpdated.getLastModifiedDate()));
+    }
+
+
 
 }
