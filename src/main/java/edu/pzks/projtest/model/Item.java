@@ -10,8 +10,10 @@ package edu.pzks.projtest.model;
 */
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -21,12 +23,28 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Builder
 @Document
-public class Item extends AuditMetadata {
+public class Item  {
     @Id
     private String id;
     private String name;
     private String code;
     private String description;
+
+    @CreatedDate
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
+
+
+
+
+    public Item(String id, String name, String code, String description) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.description = description;
+    }
 
     public Item(String name, String code, String description) {
         this.name = name;

@@ -44,6 +44,10 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    public List<Item> createAll(List<Item> items) {
+        return itemRepository.saveAll(items);
+    }
+
     public Item getById(String id) {
         return itemRepository.findById(id).orElse(null);
     }
