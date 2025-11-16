@@ -18,7 +18,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -30,10 +29,6 @@ public class Item   {
     private String name;
     private String code;
     private String description;
-    //---------- custom audit  ----------------
-    private LocalDateTime createDate;
-    private List<LocalDateTime> updateDate;
-
 
 
     public Item(String name, String code, String description) {

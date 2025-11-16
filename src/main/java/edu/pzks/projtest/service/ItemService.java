@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +37,10 @@ public class ItemService {
 
     }
 
-    @PostConstruct
+   @PostConstruct
     void init() {
-        itemRepository.deleteAll();
-        itemRepository.saveAll(items);
+     //   itemRepository.deleteAll();
+    //    itemRepository.saveAll(items);
     }
     //  CRUD   - create read update delete
 
@@ -52,19 +53,12 @@ public class ItemService {
     }
 
     public Item create(Item item) {
-
-        return itemRepository.save(item);
-    }
-
-    public Item create(ItemCreateRequest request) {
-        if (itemRepository.existsByCode(request.code())) {
+        if ( item.getId() != null && itemRepository.existsById(item.getId()) ) {
             return null;
         }
-        Item item = mapToItem(request);
-        item.setCreateDate(LocalDateTime.now());
-        item.setUpdateDate(new ArrayList<LocalDateTime>());
-        return itemRepository.save(item);
+            return itemRepository.save(item);
     }
+
 
     public  Item update(Item item) {
         return itemRepository.save(item);
@@ -75,29 +69,5 @@ public class ItemService {
         itemRepository.deleteById(id);
     }
 
-    private Item mapToItem(ItemCreateRequest request) {
-        Item item = new Item(request.name(), request.code(), request.description());
-        return item;
-    }
-
-    public Item update(ItemUpdateRequest request) {
-        Item itemPersisted = itemRepository.findById(request.id()).orElse(null);
-        if (itemPersisted != null) {
-            List<LocalDateTime> updateDates = itemPersisted.getUpdateDate();
-            updateDates.add(LocalDateTime.now());
-            Item itemToUpdate =
-                    Item.builder()
-                            .id(request.id())
-                            .name(request.name())
-                            .code(request.code())
-                            .description(request.description())
-                            .createDate(itemPersisted.getCreateDate())
-                            .updateDate(updateDates)
-                            .build();
-            return itemRepository.save(itemToUpdate);
-
-        }
-        return null;
-    }
 
 }

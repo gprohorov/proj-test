@@ -16,13 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /*
   @author   george
@@ -32,55 +32,62 @@ import static org.mockito.Mockito.verify;
   @since 11.04.25 - 20.01
 */
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ItemServiceMockTests {
 
     @Mock
     private ItemRepository mockRepository;
 
+    @InjectMocks
     private ItemService underTest;
 
-    @Captor
-    private ArgumentCaptor<Item> argumentCaptor;
-
-    private ItemCreateRequest request;
-    private Item item;
 
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        underTest = new ItemService(mockRepository);
+//        MockitoAnnotations.openMocks(this);
+//        underTest = new ItemService(mockRepository);
     }
    @AfterEach
     void tearsDown(){
-
     }
 
-    @DisplayName("Create new Item. Happy Path")
+    @DisplayName("Create new Item. An item with such an id still exists. Fail")
     @Test
-    void whenInsertNewItemAndCodeNotExistsThenOk() {
+    void whenInsertNewItemAndSuchIdExistsThenFail() {
         //given
-        request = new ItemCreateRequest("Till Lindemann", "Rammstein", "poet");
-        item = Item.builder()
-                .name(request.name())
-                .code(request.code())
-                .description(request.description())
-                .build();
-        given(mockRepository.existsByCode(request.code())).willReturn(false);
+        Item itemToSave = new Item("5","Till Lindemann----------", "Rammstein", "poet");
+        given(mockRepository.existsById(itemToSave.getId())).willReturn(true);
         // when
-         underTest.create(request);
+         Item itemPersisted = underTest.create(itemToSave);
         // then
-       then(mockRepository).should().save(argumentCaptor.capture());
-       Item itemToSave = argumentCaptor.getValue();
-       assertThat(itemToSave.getName()).isEqualTo(request.name());
-       assertNotNull(itemToSave.getCreateDate());
-       assertTrue(itemToSave.getCreateDate().isBefore(LocalDateTime.now()));
-       assertTrue(itemToSave.getUpdateDate().isEmpty());
-       verify(mockRepository).save(itemToSave);
-       verify(mockRepository, times(1)).existsByCode(request.code());
-       verify(mockRepository, times(1)).save(itemToSave);
+        then(mockRepository).should(never()).save(itemToSave);
+        assertNull(itemPersisted);
+        verify(mockRepository, never()).save(itemToSave);
+        verify(mockRepository, times(0)).save(itemToSave);
+        verify(mockRepository, times(1)).existsById(itemToSave.getId());
     }
+
+    @DisplayName("Create new Item. An item with such an id doesn't exist. Ok")
+    @Test
+    void whenInsertNewItemAndSuchIdNotExistsThenOk() {
+        //given
+        Item itemToSave = new Item("5","Till Lindemann----------", "Rammstein", "poet");
+        given(mockRepository.existsById(itemToSave.getId())).willReturn(false);
+        given(mockRepository.save(itemToSave)).willReturn(itemToSave);
+
+        // when
+         Item itemPersisted = underTest.create(itemToSave);
+        // then
+        then(mockRepository).should().save(itemToSave);
+
+        assertNotNull(itemPersisted);
+
+        verify(mockRepository, times(1)).save(itemToSave);
+        verify(mockRepository, times(1)).existsById(itemToSave.getId());
+    }
+
 
   //  @Test
     void update() {
