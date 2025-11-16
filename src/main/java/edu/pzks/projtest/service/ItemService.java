@@ -61,6 +61,9 @@ public class ItemService {
 
 
     public  Item update(Item item) {
+        if ( item.getId() == null && !itemRepository.existsById(item.getId()) ) {
+            return null;
+        }
         return itemRepository.save(item);
     }
 

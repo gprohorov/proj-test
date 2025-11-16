@@ -65,6 +65,7 @@ class ItemServiceMockTests {
         then(mockRepository).should(never()).save(itemToSave);
         assertNull(itemPersisted);
         verify(mockRepository, never()).save(itemToSave);
+
         verify(mockRepository, times(0)).save(itemToSave);
         verify(mockRepository, times(1)).existsById(itemToSave.getId());
     }
@@ -84,12 +85,32 @@ class ItemServiceMockTests {
 
         assertNotNull(itemPersisted);
 
+        assertEquals(itemToSave, itemPersisted);
+
         verify(mockRepository, times(1)).save(itemToSave);
         verify(mockRepository, times(1)).existsById(itemToSave.getId());
     }
 
 
-  //  @Test
-    void update() {
+    @DisplayName("Update an Item. An item with such an id doesn't exist. Fail")
+    @Test
+    void whenUpdateNewItemAndSuchIdNotExistsThenFail() {
+
     }
+
+    @DisplayName("Update an Item.  id == null. Fail")
+    @Test
+    void whenUpdateAnItemAndItsIdIsNullThenFail() {
+
+    }
+
+
+    @DisplayName("Happy path. Ok")
+    @Test
+    void whenUpdateAnItemAndItsIdIsInDBThenOk() {
+
+    }
+
+
+
 }
