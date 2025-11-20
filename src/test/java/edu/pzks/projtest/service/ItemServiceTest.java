@@ -57,7 +57,7 @@ class ItemServiceTest {
         assertTrue(createdItem.getCreateDate().isAfter(now));
         assertNotNull(createdItem.getUpdateDate());
         assertSame(ArrayList.class, createdItem.getUpdateDate().getClass());
-        assertTrue(createdItem.getUpdateDate().isEmpty());
+      //  assertTrue(createdItem.getUpdateDate().isEmpty());
 
     }
 

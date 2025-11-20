@@ -28,8 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,9 +49,9 @@ public class IntegrationTests {
     @BeforeEach
     void setUp() {
 
-            items.add(new Item( "Freddie Mercury", "Queen","vocal, piano"));
+            items.add(new Item( "1","Freddie Mercury", "Queen","vocal, piano"));
             items.add(new Item("2", "Paul McCartney", "Beatles","guitar"));
-            items.add(new Item("3", "Mick Jagger", "Rolling Stones","vocal"));
+            items.add(new Item("3", "Till Lindemann", "Rammstein","vocal"));
             repository.saveAll(items);
     }
 
@@ -63,14 +62,14 @@ public class IntegrationTests {
 
 
     @Test
-    void itShouldCreateNewItem() throws Exception {
+    void whenCodeIsUniqueThenItShouldCreateNewItem() throws Exception {
         // given
         ItemCreateRequest request = new ItemCreateRequest(
                 "Steven Tyler", "Aerosmith", "lader, guitar");
         // when
      ResultActions perform = mockMvc.perform(post("http://localhost:8080/api/v1/items/dto")
              .contentType(MediaType.APPLICATION_JSON)
-             .content(Utils.toJson(request)));
+             .content(Utils.toJson(request))); //!!!!!!!!!!!!!!!
 
      //then
         Item item = repository.findAll()
@@ -78,7 +77,7 @@ public class IntegrationTests {
                                 .filter(it -> it.getCode().equals(request.code()))
                                         .findFirst().orElse(null);
 
-        perform.andExpect(status().isOk());
+        perform.andExpect(status().is(200));
         assertThat(repository.existsByCode(request.code())).isTrue();
         assertNotNull(item);
         assertNotNull(item.getId());
@@ -87,12 +86,17 @@ public class IntegrationTests {
         assertThat(item.getDescription()).isEqualTo(request.description());
         assertThat(item.getName()).isEqualTo(request.name());
         assertThat(item.getCode()).isEqualTo(request.code());
-        assertThat(item.getUpdateDate()).isEmpty();
+        assertNull(item.getUpdateDate());
         assertThat(item.getCreateDate()).isNotNull();
-     //   assertSame(LocalDateTime.class, item.getCreateDate());
+     //  assertSame(LocalDateTime.class, LocalDateTime.parse(item.getCreateDate().toString()));
+    }
+    @Test
+    void whenCodeIsNotUniqueThenItShouldCreateNewItem() throws Exception {
+        // create item -  negative scenario :  code is already present
+
     }
 
-    // create item -  negative scenario :  code is alreadt present
+
     // update - happy path
     // update - negative
     // get one (positive, negative)

@@ -34,16 +34,17 @@ public class ItemService {
     private List<Item> items = new ArrayList<>();
 
     {
-        items.add(new Item("Freddie Mercury", "Queen", "vocal, piano"));
-        items.add(new Item("2", "Paul McCartney", "Beatles", "guitar"));
-        items.add(new Item("3", "Mick Jagger", "Rolling Stones", "vocal"));
-
+        items.add(new Item( "1","Freddie Mercury", "Queen","vocal, piano"));
+        items.add(new Item("2", "Paul McCartney", "Beatles","guitar"));
+        items.add(new Item("3", "Till Lindemann", "Rammstein","vocal"));
     }
 
     @PostConstruct
     void init() {
-        itemRepository.deleteAll();
-        itemRepository.saveAll(items);
+      this.itemRepository.deleteAll();
+      for(Item item : items) {
+          create(item);
+      }
     }
     //  CRUD   - create read update delete
 
@@ -60,7 +61,7 @@ public class ItemService {
     }
 
     public Item create(Item item) {
-
+        item.setCreateDate(LocalDateTime.now());
         return itemRepository.save(item);
     }
 
@@ -70,7 +71,7 @@ public class ItemService {
         }
         Item item = mapToItem(request);
         item.setCreateDate(LocalDateTime.now());
-        item.setUpdateDate(new ArrayList<LocalDateTime>());
+        item.setUpdateDate(null);
         return itemRepository.save(item);
     }
 
@@ -91,8 +92,6 @@ public class ItemService {
     public Item update(ItemUpdateRequest request) {
         Item itemPersisted = itemRepository.findById(request.id()).orElse(null);
         if (itemPersisted != null) {
-            List<LocalDateTime> updateDates = itemPersisted.getUpdateDate();
-            updateDates.add(LocalDateTime.now());
             Item itemToUpdate =
                     Item.builder()
                             .id(request.id())
@@ -100,12 +99,17 @@ public class ItemService {
                             .code(request.code())
                             .description(request.description())
                             .createDate(itemPersisted.getCreateDate())
-                            .updateDate(updateDates)
+                            .updateDate(LocalDateTime.now())
                             .build();
             return itemRepository.save(itemToUpdate);
 
         }
         return null;
     }
+
+    List<Item> createAll(List<Item> items) {
+        return itemRepository.saveAll(items);
+    }
+
 
 }

@@ -32,7 +32,7 @@ public class Item   {
     private String description;
     //---------- custom audit  ----------------
     private LocalDateTime createDate;
-    private List<LocalDateTime> updateDate;
+    private LocalDateTime updateDate;
 
 
 
