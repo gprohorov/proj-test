@@ -50,17 +50,18 @@ public class ItemRestController {
     //============== request =====================
     @PostMapping("/dto")
     public Item insert(@RequestBody ItemCreateRequest request) {
-        return itemService.create(request);
+        return itemService.createByRequest(request);
     }
 
     @PutMapping
     public Item edit(@RequestBody Item item) {
         return itemService.update(item);
     }
+
     //============== request =====================
     @PutMapping("/dto")
     public Item edit(@RequestBody ItemUpdateRequest request) {
-        return itemService.update(request);
+        return itemService.updateByRequest(request);
     }
 
 

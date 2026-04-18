@@ -9,5 +9,7 @@ package edu.pzks.projtest.request;
   @since 11.04.25 - 18.51
 */
 
-public record ItemCreateRequest( String name, String code, String description) {
+public record ItemCreateRequest( String name,
+                                 String code,
+                                 String description) {
 }

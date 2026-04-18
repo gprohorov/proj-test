@@ -30,7 +30,7 @@ public class ItemService {
 
     private List<Item> items = new ArrayList<>();
     {
-        items.add(new Item( "Freddie Mercury", "Queen","vocal, piano"));
+        items.add(new Item( "Freddie Mercury---", "Queen","vocal, piano"));
         items.add(new Item("2", "Paul McCartney", "Beatles","guitar"));
         items.add(new Item("3", "Mick Jagger", "Rolling Stones","vocal"));
 
@@ -56,14 +56,12 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public Item create(ItemCreateRequest request) {
-        if (itemRepository.existsByCode(request.code())) {
+    public Item createByRequest(ItemCreateRequest request) {
+        if (request.name() == null) {
             return null;
         }
         Item item = mapToItem(request);
-        item.setCreateDate(LocalDateTime.now());
-        item.setUpdateDate(new ArrayList<LocalDateTime>());
-        return itemRepository.save(item);
+        return this.create(item);
     }
 
     public  Item update(Item item) {
@@ -80,21 +78,17 @@ public class ItemService {
         return item;
     }
 
-    public Item update(ItemUpdateRequest request) {
-        Item itemPersisted = itemRepository.findById(request.id()).orElse(null);
-        if (itemPersisted != null) {
-            List<LocalDateTime> updateDates = itemPersisted.getUpdateDate();
-            updateDates.add(LocalDateTime.now());
+    public Item updateByRequest(ItemUpdateRequest request) {
+
+        if (itemRepository.existsById(request.id())) {
             Item itemToUpdate =
                     Item.builder()
                             .id(request.id())
                             .name(request.name())
                             .code(request.code())
                             .description(request.description())
-                            .createDate(itemPersisted.getCreateDate())
-                            .updateDate(updateDates)
                             .build();
-            return itemRepository.save(itemToUpdate);
+            return this.create(itemToUpdate);
 
         }
         return null;
