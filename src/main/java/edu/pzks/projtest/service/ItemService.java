@@ -39,8 +39,8 @@ public class ItemService {
 
    @PostConstruct
     void init() {
-     //   itemRepository.deleteAll();
-    //    itemRepository.saveAll(items);
+        itemRepository.deleteAll();
+        itemRepository.saveAll(items);
     }
     //  CRUD   - create read update delete
 
