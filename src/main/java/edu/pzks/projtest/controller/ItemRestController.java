@@ -4,6 +4,7 @@ package edu.pzks.projtest.controller;
 import edu.pzks.projtest.model.Item;
 import edu.pzks.projtest.repository.ItemRepository;
 import edu.pzks.projtest.request.ItemCreateRequest;
+import edu.pzks.projtest.request.ItemSearchRequest;
 import edu.pzks.projtest.request.ItemUpdateRequest;
 import edu.pzks.projtest.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
   @since 09.09.24 - 12.01
 */
 @RestController
-@RequestMapping("api/v1/items/")
+@RequestMapping("api/v1/items")
 @RequiredArgsConstructor
 public class ItemRestController {
 
@@ -37,14 +38,25 @@ public class ItemRestController {
     }
 
     // read one
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public Item showOneById(@PathVariable String id) {
+        return itemService.getById(id);
+    }
+
+    // read one
+    @GetMapping("/exc/{id}")
+    public Item showOneByIdOrThrow(@PathVariable String id) {
         return itemService.getById(id);
     }
 
     @PostMapping
     public Item insert(@RequestBody Item item) {
         return itemService.create(item);
+    }
+
+    @PostMapping("/search")
+    public List<Item> insert(@RequestBody ItemSearchRequest request) {
+        return itemService.findByFragment(request);
     }
 
     //============== request =====================

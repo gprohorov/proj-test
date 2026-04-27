@@ -13,6 +13,7 @@ import edu.pzks.projtest.controller.ItemRestController;
 import edu.pzks.projtest.model.Item;
 import edu.pzks.projtest.repository.ItemRepository;
 import edu.pzks.projtest.request.ItemCreateRequest;
+import edu.pzks.projtest.request.ItemSearchRequest;
 import edu.pzks.projtest.request.ItemUpdateRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +53,11 @@ public class ItemService {
         return itemRepository.findById(id).orElse(null);
     }
 
+    public Item getByIdOrThrow(String id) {
+        return itemRepository.findById(id).orElseThrow(()
+                -> new NoSuchElementException("Item not found"));
+    }
+
     public Item create(Item item) {
 
         return itemRepository.save(item);
@@ -70,6 +77,7 @@ public class ItemService {
 
 
     public void delById(String id) {
+        getByIdOrThrow(id);
         itemRepository.deleteById(id);
     }
 
@@ -92,6 +100,19 @@ public class ItemService {
 
         }
         return null;
+    }
+
+    public List<Item> findByFragment(ItemSearchRequest request) {
+
+        String fragment = request.fragment();
+        List<Item> limited = new ArrayList<>();
+        List<Item> items = this.getAll().stream()
+                .filter(item -> item.getName().contains(fragment))
+                .toList();
+
+            limited= items.subList(0, request.amount());
+
+        return limited;
     }
 
 }
