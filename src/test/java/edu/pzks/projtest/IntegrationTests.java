@@ -65,7 +65,7 @@ public class IntegrationTests {
     void whenHappyPathCreateNewItem() throws Exception {
         // given
         ItemCreateRequest request = new ItemCreateRequest(
-                "Steven Tyler", "Aerosmith", "lader, guitar");
+                "Steven Tyler", "Aerosmith", "leader, guitar");
         // when
      ResultActions perform = mockMvc.perform(post("http://localhost:8080/api/v1/items/dto")
              .contentType(MediaType.APPLICATION_JSON)
@@ -78,7 +78,6 @@ public class IntegrationTests {
                                         .findFirst().orElse(null);
 
         perform.andExpect(status().is(200));
-        assertThat(repository.existsByCode(request.code())).isTrue();
         assertNotNull(item);
         assertNotNull(item.getId());
         assertThat(item.getId()).isNotEmpty();
@@ -86,10 +85,10 @@ public class IntegrationTests {
         assertThat(item.getDescription()).isEqualTo(request.description());
         assertThat(item.getName()).isEqualTo(request.name());
         assertThat(item.getCode()).isEqualTo(request.code());
-        assertNull(item.getUpdateDate());
+        assertNotNull(item.getUpdateDate());
         assertThat(item.getCreateDate()).isNotNull();
-
     }
+
     @Test
     void whenIdExistsCreateNewItemThenFailure() throws Exception {
         // create item -  negative scenario :  id is already present

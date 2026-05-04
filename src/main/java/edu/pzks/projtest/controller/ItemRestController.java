@@ -20,7 +20,7 @@ import java.util.List;
   @since 09.09.24 - 12.01
 */
 @RestController
-@RequestMapping("api/v1/items/")
+@RequestMapping("api/v1/items")
 @RequiredArgsConstructor
 public class ItemRestController {
 

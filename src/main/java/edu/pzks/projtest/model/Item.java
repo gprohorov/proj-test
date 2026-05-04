@@ -10,7 +10,9 @@ package edu.pzks.projtest.model;
 */
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -31,7 +33,9 @@ public class Item   {
     private String code;
     private String description;
     //---------- custom audit  ----------------
+    @CreatedDate
     private LocalDateTime createDate;
+    @LastModifiedDate
     private LocalDateTime updateDate;
 
 

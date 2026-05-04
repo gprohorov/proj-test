@@ -43,7 +43,7 @@ public class ItemService {
     void init() {
       this.itemRepository.deleteAll();
       for(Item item : items) {
-          create(item);
+          itemRepository.save(item);
       }
     }
     //  CRUD   - create read update delete
@@ -61,17 +61,14 @@ public class ItemService {
     }
 
     public Item create(Item item) {
-        item.setCreateDate(LocalDateTime.now());
+        if (item.getId() != null) {
+            return null;
+        } else
         return itemRepository.save(item);
     }
 
     public Item create(ItemCreateRequest request) {
-        if (itemRepository.existsByCode(request.code())) {
-            throw  new IllegalStateException("code already exists");
-        }
         Item item = mapToItem(request);
-        item.setCreateDate(LocalDateTime.now());
-        item.setUpdateDate(null);
         return itemRepository.save(item);
     }
 
@@ -98,10 +95,8 @@ public class ItemService {
                             .name(request.name())
                             .code(request.code())
                             .description(request.description())
-                            .createDate(itemPersisted.getCreateDate())
-                            .updateDate(LocalDateTime.now())
                             .build();
-            return itemRepository.save(itemToUpdate);
+            return this.update(itemToUpdate);
 
         }
         return null;

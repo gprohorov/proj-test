@@ -16,5 +16,4 @@ public class Utils {
     public static String toJson(Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
-
 }
