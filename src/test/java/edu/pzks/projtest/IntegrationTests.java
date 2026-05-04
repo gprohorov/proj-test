@@ -62,7 +62,7 @@ public class IntegrationTests {
 
 
     @Test
-    void whenCodeIsUniqueThenItShouldCreateNewItem() throws Exception {
+    void whenHappyPathCreateNewItem() throws Exception {
         // given
         ItemCreateRequest request = new ItemCreateRequest(
                 "Steven Tyler", "Aerosmith", "lader, guitar");
@@ -74,7 +74,7 @@ public class IntegrationTests {
      //then
         Item item = repository.findAll()
                         .stream()
-                                .filter(it -> it.getCode().equals(request.code()))
+                                .filter(it -> it.getName().equals(request.name()))
                                         .findFirst().orElse(null);
 
         perform.andExpect(status().is(200));
@@ -88,11 +88,11 @@ public class IntegrationTests {
         assertThat(item.getCode()).isEqualTo(request.code());
         assertNull(item.getUpdateDate());
         assertThat(item.getCreateDate()).isNotNull();
-     //  assertSame(LocalDateTime.class, LocalDateTime.parse(item.getCreateDate().toString()));
+
     }
     @Test
-    void whenCodeIsNotUniqueThenItShouldCreateNewItem() throws Exception {
-        // create item -  negative scenario :  code is already present
+    void whenIdExistsCreateNewItemThenFailure() throws Exception {
+        // create item -  negative scenario :  id is already present
 
     }
 
@@ -100,7 +100,7 @@ public class IntegrationTests {
     // update - happy path
     // update - negative
     // get one (positive, negative)
-    // delete (positive negative)
+
 
 
 
