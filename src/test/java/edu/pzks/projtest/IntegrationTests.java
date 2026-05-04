@@ -42,8 +42,6 @@ public class IntegrationTests {
     @Autowired
     private ItemRepository repository;
 
-
-
     private List<Item> items = new ArrayList<>();
 
     @BeforeEach
